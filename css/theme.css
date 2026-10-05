@@ -1,7 +1,7 @@
 /*
  * THEME: all visual styling (colors, gradients, fonts, spacing, radius, shadows).
- * Dark theme (default) with soft coral-to-lilac gradients, plus a light theme under [data-theme="light"].
- * data-theme on <html> follows the device setting until the header switch is used. To restyle, change the variables in the two blocks below;
+ * Dark theme with soft coral-to-lilac gradients, plus a light theme under [data-theme="light"].
+ * Light is the default: <html> starts with data-theme="light" and the header switch changes it. To restyle, change the variables in the two blocks below;
  * layout.css only handles structure.
  * Optional Google Font: add a <link> in index.html/project.html and put the family first in --font-sans.
  */

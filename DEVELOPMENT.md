@@ -66,7 +66,7 @@ Keep models under about 3 MB. If an export is too heavy, simplify it in your CAD
 
 ## Changing the theme
 
-Every color, font, spacing value, radius and shadow is a CSS variable in `:root` at the top of `css/theme.css`. There is a light/dark switch (sun/moon button) in the header. Dark is the default, and each visitor's choice is remembered in their browser. Dark colours are set in the first `:root` block of `css/theme.css` and light colours in `:root[data-theme="light"]`; change both when restyling. In the dark theme, `--gradient-page` sets the background glows, and `--color-accent`/`--color-accent-2` set the coral-to-lilac gradient used on buttons, headings and highlights (`--gradient-accent`). To use a Google Font, add its `<link>` tag to the `<head>` of `index.html` and put the font family first in `--font-sans`. You should not need to touch `css/layout.css` to restyle the site.
+Every color, font, spacing value, radius and shadow is a CSS variable in `:root` at the top of `css/theme.css`. There is a light/dark switch (sun/moon button) in the header. Light is the default, and a visitor who switches to dark has that choice remembered in their browser. Dark colours are set in the first `:root` block of `css/theme.css` and light colours in `:root[data-theme="light"]`; change both when restyling. In the dark theme, `--gradient-page` sets the background glows, and `--color-accent`/`--color-accent-2` set the coral-to-lilac gradient used on buttons, headings and highlights (`--gradient-accent`). To use a Google Font, add its `<link>` tag to the `<head>` of `index.html` and put the font family first in `--font-sans`. You should not need to touch `css/layout.css` to restyle the site.
 
 ## Link previews (meta / Open Graph)
 

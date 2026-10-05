@@ -100,39 +100,22 @@
   const PUB_LINK_LABELS = { paper: "Paper", video: "Video", code: "Code" };
 
   // ---------- light / dark switch ----------
-  // Follows the device setting. Picking the other theme with the switch is kept in localStorage
-  // (the inline script in <head> applies it early) and is forgotten once it matches the device again.
+  // Light is the default. Choosing dark is kept in localStorage (the inline script in <head> applies it early).
   function setupThemeToggle() {
     const button = $("theme-toggle");
     if (!button) return;
     const root = document.documentElement;
-    const query = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
-    const device = () => (query && query.matches ? "light" : "dark");
-    const current = () => (root.getAttribute("data-theme") === "light" ? "light" : "dark");
+    const current = () => (root.getAttribute("data-theme") === "dark" ? "dark" : "light");
     const sync = () => button.setAttribute("aria-label", current() === "light" ? "Switch to dark theme" : "Switch to light theme");
-    const saved = () => { try { return localStorage.getItem("theme"); } catch (e) { return null; } };
-    const save = (theme) => {
-      try {
-        if (theme === device()) localStorage.removeItem("theme");
-        else localStorage.setItem("theme", theme);
-      } catch (e) { /* storage unavailable: theme still switches for this visit */ }
-    };
     button.addEventListener("click", () => {
       const next = current() === "light" ? "dark" : "light";
       root.setAttribute("data-theme", next);
-      save(next);
+      try {
+        if (next === "dark") localStorage.setItem("color-theme", "dark");
+        else localStorage.removeItem("color-theme");
+      } catch (e) { /* storage unavailable: theme still switches for this visit */ }
       sync();
     });
-    if (query) {
-      const follow = () => {
-        if (saved() === device()) save(device());
-        if (saved() === "light" || saved() === "dark") return;
-        root.setAttribute("data-theme", device());
-        sync();
-      };
-      if (query.addEventListener) query.addEventListener("change", follow);
-      else if (query.addListener) query.addListener(follow);
-    }
     sync();
   }
 
