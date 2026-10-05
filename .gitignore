@@ -3,3 +3,7 @@
 *.int
 *.lk
 *.zip
+
+# Private source material (transcript, ID documents, large videos) - never publish
+Sanpoom_CV/
+.DS_Store

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Static defaults for crawlers/link previews (they don't run JS). script.js overwrites these from data.js. -->
+  <title>Sanpoom Punapanont</title>
+  <meta name="description" content="Sanpoom Punapanont, Research Engineer at VISTEC, working on compliant and variable-stiffness robotic mechanisms.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sanpoom Punapanont">
+  <meta property="og:description" content="Sanpoom Punapanont, Research Engineer at VISTEC, working on compliant and variable-stiffness robotic mechanisms.">
+  <meta property="og:image" content="assets/img/projects/lithe-joint.jpg">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main">
+      <a class="nav-brand" href="#top" id="nav-brand"></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        <span class="visually-hidden">Toggle menu</span>
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-name">
+      <div class="container hero-inner">
+        <img class="hero-photo" id="hero-photo" alt="" width="200" height="200">
+        <div class="hero-text">
+          <h1 id="hero-name"></h1>
+          <p class="hero-title" id="hero-title"></p>
+          <p class="hero-tagline" id="hero-tagline"></p>
+          <div class="hero-actions" id="hero-actions"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" data-section="About" aria-labelledby="about-h">
+      <div class="container"><h2 id="about-h">About</h2><p class="about-text" id="about-text"></p></div>
+    </section>
+
+    <section class="section" id="education" data-section="Education" aria-labelledby="education-h">
+      <div class="container"><h2 id="education-h">Education</h2><ol class="timeline" id="education-list"></ol></div>
+    </section>
+
+    <section class="section" id="experience" data-section="Experience" aria-labelledby="experience-h">
+      <div class="container"><h2 id="experience-h">Experience</h2><ol class="timeline" id="experience-list"></ol></div>
+    </section>
+
+    <section class="section" id="projects" data-section="Projects" aria-labelledby="projects-h">
+      <div class="container"><h2 id="projects-h">Research Projects</h2><div class="card-grid" id="projects-list"></div></div>
+    </section>
+
+    <section class="section" id="publications" data-section="Publications" aria-labelledby="publications-h">
+      <div class="container"><h2 id="publications-h">Publications</h2><div id="publications-list"></div></div>
+    </section>
+
+    <section class="section" id="skills" data-section="Skills" aria-labelledby="skills-h">
+      <div class="container"><h2 id="skills-h">Skills</h2><div id="skills-list"></div></div>
+    </section>
+
+    <section class="section" id="awards" data-section="Awards" aria-labelledby="awards-h">
+      <div class="container"><h2 id="awards-h">Awards &amp; Certifications</h2><ul class="awards" id="awards-list"></ul></div>
+    </section>
+
+    <section class="section" id="highlights" data-section="Highlights" aria-labelledby="highlights-h">
+      <div class="container"><h2 id="highlights-h">Highlights</h2><div class="gallery" id="highlights-list"></div></div>
+    </section>
+
+    <section class="section" id="contact" data-section="Contact" aria-labelledby="contact-h">
+      <div class="container"><h2 id="contact-h">Contact</h2><ul class="contact-links" id="contact-list"></ul></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><p id="footer-text"></p></div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
