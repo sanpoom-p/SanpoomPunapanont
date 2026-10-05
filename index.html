@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <!-- Apply the saved light/dark choice, or the device setting, before the page paints. -->
-  <script>var t; try { t = localStorage.getItem("theme"); } catch (e) {} if (t !== "light" && t !== "dark") t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; document.documentElement.setAttribute("data-theme", t);</script>
+  <script>var d = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark", t; try { t = localStorage.getItem("theme"); if (t === d) localStorage.removeItem("theme"); } catch (e) {} if (t !== "light" && t !== "dark") t = d; document.documentElement.setAttribute("data-theme", t);</script>
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/layout.css">
 </head>
