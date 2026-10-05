@@ -100,19 +100,31 @@
   const PUB_LINK_LABELS = { paper: "Paper", video: "Video", code: "Code" };
 
   // ---------- light / dark switch ----------
-  // Dark is the default. The choice is kept in localStorage (the inline script in <head> applies it early).
+  // Follows the device setting until the visitor picks a theme; that choice is kept in localStorage
+  // (the inline script in <head> applies it early).
   function setupThemeToggle() {
     const button = $("theme-toggle");
     if (!button) return;
     const root = document.documentElement;
     const current = () => (root.getAttribute("data-theme") === "light" ? "light" : "dark");
     const sync = () => button.setAttribute("aria-label", current() === "light" ? "Switch to dark theme" : "Switch to light theme");
+    const saved = () => { try { return localStorage.getItem("theme"); } catch (e) { return null; } };
     button.addEventListener("click", () => {
       const next = current() === "light" ? "dark" : "light";
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("theme", next); } catch (e) { /* storage unavailable: theme still switches for this visit */ }
       sync();
     });
+    if (window.matchMedia) {
+      const query = window.matchMedia("(prefers-color-scheme: light)");
+      const follow = () => {
+        if (saved() === "light" || saved() === "dark") return;
+        root.setAttribute("data-theme", query.matches ? "light" : "dark");
+        sync();
+      };
+      if (query.addEventListener) query.addEventListener("change", follow);
+      else if (query.addListener) query.addListener(follow);
+    }
     sync();
   }
 
