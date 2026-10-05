@@ -4,6 +4,8 @@
  * - Models load lazily when they scroll near the viewport, and stop rendering when off-screen.
  * - data-interactive="full": drag/zoom/pan with OrbitControls (detail page).
  * - data-interactive="rotate": drag to rotate only (home showcase), page scroll is untouched.
+ *   The model turns slowly on its own; after the visitor lets go, it waits briefly, glides back
+ *   to its starting view and resumes turning.
  * - No data-interactive: the model slowly turns on its own.
  * - If WebGL or loading fails, the poster image simply stays visible.
  */
@@ -59,8 +61,13 @@ function mount(stage) {
   const pivot = new THREE.Group(); // turned by auto-rotation on cards
   scene.add(pivot);
 
+  const RETURN_DELAY = 1500; // ms without interaction before the showcase model glides back
+  const RETURN_TIME = 1400;  // ms the glide back to the starting view takes
+
   let controls = null;
-  let home = null; // initial camera placement, for double-click reset
+  let home = null;  // starting camera placement (reset target)
+  let glide = null; // active return-to-start animation
+  let idleTimer = 0;
   let visible = true;
   let running = false;
   let last = performance.now();
@@ -82,10 +89,54 @@ function mount(stage) {
     }
     const dt = Math.min((now - last) / 1000, 0.1);
     last = now;
-    if (controls) controls.update(dt);
+    if (glide) stepGlide(now);
+    else if (controls) controls.update(dt);
     else if (!reduceMotion) pivot.rotation.y += dt * 0.35;
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
+  }
+
+  // Smoothly move the camera back to its starting view. It travels around the model (spherical
+  // interpolation, shortest way round) rather than through it, with ease-in-out timing.
+  function returnHome(resumeSpin) {
+    clearTimeout(idleTimer);
+    if (!controls || !home) return;
+    if (reduceMotion) {
+      camera.position.copy(home.position);
+      controls.target.copy(home.target);
+      controls.update();
+      renderer.render(scene, camera);
+      return;
+    }
+    const from = new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target));
+    const to = new THREE.Spherical().setFromVector3(home.position.clone().sub(home.target));
+    const turn = to.theta - from.theta;
+    glide = {
+      from, to,
+      dTheta: Math.atan2(Math.sin(turn), Math.cos(turn)),
+      fromTarget: controls.target.clone(),
+      start: performance.now(),
+      resumeSpin
+    };
+    start();
+  }
+
+  function stepGlide(now) {
+    const t = Math.min((now - glide.start) / RETURN_TIME, 1);
+    const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // ease in-out
+    const lerp = THREE.MathUtils.lerp;
+    controls.target.lerpVectors(glide.fromTarget, home.target, e);
+    camera.position.setFromSpherical(new THREE.Spherical(
+      lerp(glide.from.radius, glide.to.radius, e),
+      lerp(glide.from.phi, glide.to.phi, e),
+      glide.from.theta + glide.dTheta * e
+    )).add(controls.target);
+    camera.lookAt(controls.target);
+    if (t >= 1) {
+      controls.autoRotate = glide.resumeSpin && !reduceMotion;
+      glide = null;
+      controls.update();
+    }
   }
 
   function start() {
@@ -123,21 +174,28 @@ function mount(stage) {
       controls = new OrbitControls(camera, canvas);
       controls.enableDamping = true;
       controls.autoRotate = !reduceMotion;
-      controls.autoRotateSpeed = 1.2;
+      controls.autoRotateSpeed = mode === "rotate" ? 0.8 : 1.2; // ~75 s / ~50 s per turn
       controls.minDistance = radius * 0.6;
       controls.maxDistance = distance * 3;
-      controls.addEventListener("start", () => { controls.autoRotate = false; });
+      controls.addEventListener("start", () => {
+        controls.autoRotate = false;
+        glide = null; // grabbing the model cancels a glide in progress
+        clearTimeout(idleTimer);
+      });
+      if (mode === "rotate") {
+        // Let go -> wait a moment -> glide back to the start view -> keep turning slowly.
+        controls.addEventListener("end", () => {
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => returnHome(true), RETURN_DELAY);
+        });
+      }
       if (mode === "rotate") {
         controls.enableZoom = false;
         controls.enablePan = false;
         canvas.style.touchAction = "pan-y"; // vertical swipes still scroll the page on phones
       }
       home = { position: camera.position.clone(), target: controls.target.clone() };
-      canvas.addEventListener("dblclick", () => {
-        camera.position.copy(home.position);
-        controls.target.copy(home.target);
-        controls.update();
-      });
+      canvas.addEventListener("dblclick", () => returnHome(mode === "rotate"));
       canvas.tabIndex = 0;
     }
 

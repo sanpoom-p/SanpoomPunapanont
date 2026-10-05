@@ -1,6 +1,7 @@
 /*
  * THEME: all visual styling (colors, gradients, fonts, spacing, radius, shadows).
- * Dark theme with soft coral-to-lilac gradients. To restyle the site, change the variables in :root;
+ * Dark theme (default) with soft coral-to-lilac gradients, plus a light theme under [data-theme="light"].
+ * The header switch sets data-theme on <html>. To restyle, change the variables in the two blocks below;
  * layout.css only handles structure.
  * Optional Google Font: add a <link> in index.html/project.html and put the family first in --font-sans.
  */
@@ -20,8 +21,19 @@
   --color-accent-contrast: #15131a; /* text on gradient buttons */
   --color-accent-soft: rgba(216, 161, 241, 0.12);
 
+  --color-chip-text: #e9c9f8;
+  --color-chip-border: rgba(216, 161, 241, 0.18);
+  --color-header: rgba(13, 14, 18, 0.72);
+  --color-divider: rgba(255, 255, 255, 0.05);
+  --color-overlay: rgba(20, 21, 27, 0.75);
+  --color-dot: rgba(255, 255, 255, 0.22);
+  --color-dot-hover: rgba(255, 255, 255, 0.45);
+
   /* Gradients */
-  --gradient-accent: linear-gradient(92deg, var(--color-accent-2) 0%, var(--color-accent) 100%);
+  --gradient-accent: linear-gradient(92deg, var(--color-accent-2) 0%, var(--color-accent) 100%); /* buttons, bars */
+  --gradient-text: var(--gradient-accent);                                                       /* gradient-coloured text */
+  --gradient-heading: linear-gradient(92deg, #ffffff 0%, #f3dcff 45%, var(--color-accent-2) 100%);
+  --gradient-panel: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   --gradient-page:
     radial-gradient(60rem 42rem at 8% -8%, rgba(145, 106, 240, 0.26), transparent 62%),
     radial-gradient(52rem 38rem at 96% 4%, rgba(230, 118, 93, 0.18), transparent 60%),
@@ -60,6 +72,42 @@
   --nav-height: 64px;
 }
 
+/* Light theme */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f7f6fb;
+  --color-bg-alt: #efedf5;
+  --color-surface: rgba(255, 255, 255, 0.72);
+  --color-surface-strong: #ffffff;
+  --color-text: #1d1b26;
+  --color-muted: #5b5869;
+  --color-border: rgba(30, 20, 60, 0.12);
+  --color-accent: #8a3fc7;
+  --color-accent-2: #d9536a;
+  --color-accent-contrast: #15131a;
+  --color-accent-soft: rgba(138, 63, 199, 0.09);
+  --color-chip-text: #7432ad;
+  --color-chip-border: rgba(138, 63, 199, 0.2);
+  --color-header: rgba(247, 246, 251, 0.82);
+  --color-divider: rgba(30, 20, 60, 0.07);
+  --color-overlay: rgba(255, 255, 255, 0.88);
+  --color-dot: rgba(30, 20, 60, 0.18);
+  --color-dot-hover: rgba(30, 20, 60, 0.35);
+
+  --gradient-accent: linear-gradient(92deg, #ff989b 0%, #d8a1f1 100%);
+  --gradient-text: linear-gradient(92deg, #d9536a 0%, #8a3fc7 100%);
+  --gradient-heading: linear-gradient(92deg, #1d1b26 0%, #5a2d86 55%, #d9536a 100%);
+  --gradient-panel: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.65));
+  --gradient-page:
+    radial-gradient(60rem 42rem at 8% -8%, rgba(145, 106, 240, 0.16), transparent 62%),
+    radial-gradient(52rem 38rem at 96% 4%, rgba(255, 152, 155, 0.18), transparent 60%),
+    radial-gradient(70rem 50rem at 50% 115%, rgba(145, 144, 255, 0.12), transparent 62%);
+  --gradient-stage: radial-gradient(circle at 50% 45%, #ffffff 0%, rgba(255, 255, 255, 0.7) 40%, rgba(232, 228, 242, 0.6) 100%);
+
+  --shadow: 0 10px 30px rgba(30, 20, 60, 0.08);
+  --glow: 0 0 0 1px rgba(138, 63, 199, 0.3), 0 10px 30px rgba(138, 63, 199, 0.14);
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
@@ -82,7 +130,7 @@ a:hover { text-decoration: underline; }
 
 .muted { color: var(--color-muted); }
 .gradient-text {
-  background: var(--gradient-accent);
+  background: var(--gradient-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -90,7 +138,7 @@ a:hover { text-decoration: underline; }
 
 /* Header / nav */
 .site-header {
-  background: rgba(13, 14, 18, 0.72);
+  background: var(--color-header);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
@@ -101,18 +149,30 @@ a:hover { text-decoration: underline; }
 .nav-links a:hover { color: var(--color-text); text-decoration: none; }
 .nav-toggle { background: none; border: 0; color: var(--color-text); cursor: pointer; }
 
+/* Theme switch */
+.theme-toggle {
+  border: 1px solid var(--color-border); border-radius: 50%;
+  background: var(--color-surface); color: var(--color-text); cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
+}
+.theme-toggle:hover { border-color: rgba(216, 161, 241, 0.6); color: var(--color-accent); box-shadow: var(--glow); }
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+body, .site-header, .slide, .btn, .chip, .contact-link, .model-stage { transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease; }
+
 /* Sections */
 .section h2 { display: inline-block; padding-bottom: var(--space-2); position: relative; }
 .section h2::after {
   content: ""; position: absolute; left: 0; bottom: 0; width: 48px; height: 3px;
   border-radius: var(--radius-pill); background: var(--gradient-accent);
 }
-.section + .section { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.section + .section { border-top: 1px solid var(--color-divider); }
 
 /* Hero */
-.hero { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.hero { border-bottom: 1px solid var(--color-divider); }
 .hero h1 {
-  background: linear-gradient(92deg, #ffffff 0%, #f3dcff 45%, var(--color-accent-2) 100%);
+  background: var(--gradient-heading);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .hero-photo {
@@ -157,7 +217,7 @@ a:hover { text-decoration: underline; }
 
 /* Project showcase */
 .slide {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  background: var(--gradient-panel);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-large);
   box-shadow: var(--shadow);
@@ -173,28 +233,28 @@ a:hover { text-decoration: underline; }
 .slide-highlights li::marker { color: var(--color-accent); }
 .slide-hint {
   font-size: 0.75rem; color: var(--color-muted);
-  background: rgba(13, 14, 18, 0.6); border: 1px solid var(--color-border);
+  background: var(--color-overlay); border: 1px solid var(--color-border);
   border-radius: var(--radius-pill); padding: 2px 12px;
 }
 .showcase-arrow {
   border: 1px solid var(--color-border); border-radius: 50%;
-  background: rgba(20, 21, 27, 0.75); color: var(--color-text); cursor: pointer;
+  background: var(--color-overlay); color: var(--color-text); cursor: pointer;
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
 }
 .showcase-arrow:hover { border-color: rgba(216, 161, 241, 0.7); color: var(--color-accent); box-shadow: var(--glow); }
 .showcase-dots button {
-  border: 0; border-radius: var(--radius-pill); background: rgba(255, 255, 255, 0.22); cursor: pointer;
+  border: 0; border-radius: var(--radius-pill); background: var(--color-dot); cursor: pointer;
   transition: width 0.3s, background 0.3s;
 }
-.showcase-dots button:hover { background: rgba(255, 255, 255, 0.45); }
+.showcase-dots button:hover { background: var(--color-dot-hover); }
 .showcase-dots button[aria-current="true"] { background: var(--gradient-accent); }
 
 /* Chips */
 .chip {
   background: var(--color-accent-soft);
-  color: #e9c9f8;
-  border: 1px solid rgba(216, 161, 241, 0.18);
+  color: var(--color-chip-text);
+  border: 1px solid var(--color-chip-border);
   border-radius: var(--radius-pill);
   font-size: var(--font-size-small);
   font-weight: 500;
@@ -205,7 +265,7 @@ a:hover { text-decoration: underline; }
 .pub { border-bottom: 1px solid var(--color-border); }
 .venue-tag {
   font-family: var(--font-mono); font-size: var(--font-size-small); font-weight: 700;
-  background: var(--gradient-accent); -webkit-background-clip: text; background-clip: text; color: transparent;
+  background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .status-tag { font-size: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-pill); color: var(--color-muted); }
 .pub-authors { font-size: var(--font-size-small); color: var(--color-muted); }
@@ -254,7 +314,8 @@ a:hover { text-decoration: underline; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn, .showcase-arrow, .showcase-dots button, .model-canvas, .model-poster, .project-pager a { transition: none; }
+  .btn, .showcase-arrow, .showcase-dots button, .model-canvas, .model-poster, .project-pager a, .theme-toggle,
+  body, .site-header, .slide, .chip, .contact-link, .model-stage { transition: none; }
   .slide:not([hidden]) { animation: none; }
   .btn-primary:hover { transform: none; }
 }

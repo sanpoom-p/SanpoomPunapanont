@@ -99,6 +99,23 @@
   const PROJECT_LINK_LABELS = { paper: "Paper", video: "Video", github: "GitHub", project: "Project page" };
   const PUB_LINK_LABELS = { paper: "Paper", video: "Video", code: "Code" };
 
+  // ---------- light / dark switch ----------
+  // Dark is the default. The choice is kept in localStorage (the inline script in <head> applies it early).
+  function setupThemeToggle() {
+    const button = $("theme-toggle");
+    if (!button) return;
+    const root = document.documentElement;
+    const current = () => (root.getAttribute("data-theme") === "light" ? "light" : "dark");
+    const sync = () => button.setAttribute("aria-label", current() === "light" ? "Switch to dark theme" : "Switch to light theme");
+    button.addEventListener("click", () => {
+      const next = current() === "light" ? "dark" : "light";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) { /* storage unavailable: theme still switches for this visit */ }
+      sync();
+    });
+    sync();
+  }
+
   // ---------- shared: nav, meta, footer ----------
   function renderNav() {
     $("nav-brand").textContent = SITE.name || "";
@@ -464,6 +481,7 @@
   }
 
   renderNav();
+  setupThemeToggle();
   if (page === "project") renderProjectPage();
   else renderHome();
   renderFooter();
