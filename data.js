@@ -69,7 +69,7 @@ const SITE = {
   ],
 
   // Each project gets its own detail page: project.html?id=<id>.
-  // model: optional .glb file shown as an interactive 3D viewer (see README). image is the fallback/poster.
+  // model: optional .glb file shown as an interactive 3D viewer (see DEVELOPMENT.md). image is the fallback/poster.
   // publicationIds: ids from the publications list below, shown on the detail page.
   projects: [
     {

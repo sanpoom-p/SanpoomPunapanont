@@ -1,96 +1,166 @@
-# Sanpoom Punapanont — Academic Portfolio
+# Sanpoom Punapanont
 
-A single-page academic portfolio in plain HTML, CSS and vanilla JavaScript. There is no build step, no npm and no framework. It runs on GitHub Pages as-is, and also works when you open `index.html` directly from disk.
+**Research Engineer, Vidyasirimedhi Institute of Science and Technology (VISTEC)**
+Bangkok, Thailand
 
-```
-index.html           home page skeleton, meta tags
-project.html         project detail page (project.html?id=<project id>)
-data.js              ALL content (edit this)
-script.js            renders both pages from data.js
-js/viewer3d.js       interactive 3D model viewer (three.js)
-css/theme.css        colors, fonts, spacing, radius (CSS variables)
-css/layout.css       structure and responsive layout
-assets/img/          profile photo, favicon, project images
-assets/models/       3D models (.glb) for the projects
-assets/cv/CV.pdf     the downloadable CV
-vendor/three/        local copy of three.js (MIT), so no CDN is needed
-tools/3mf_to_glb.py  converts CAD .3MF exports into .glb models
-.nojekyll            tells GitHub Pages to serve files as-is
-```
+*Physical intelligence, compliant and variable-stiffness mechanisms, embodied intelligence, and robot–environment interaction.*
 
-## Editing content (`data.js`)
+🌐 **Website:** [snatchaya.github.io/sanpoom_web](https://snatchaya.github.io/sanpoom_web/)  
+📄 **CV:** [Download (PDF)](assets/cv/CV.pdf)  
+✉️ **Email:** [p.sanpoom@gmail.com](mailto:p.sanpoom@gmail.com)
 
-All content lives in one global object, `const SITE = { ... }`, in `data.js`. You only need to edit this file to update the site.
+---
 
-- **Hide a section:** set its list to an empty array (for example `highlights: []`). The section and its nav link both disappear.
-- **Hide a contact icon or link button:** set its value to `""`.
-- **Publications:** entries are grouped by `year`, newest first. Each one has a `venue` tag (shown as `[IROS-2025]`), an optional `status` label (for example `"Under review"`), `authors`, `details`, an `abstract` (shown inside a collapsible block) and `links` (`paper`, `video`, `code`). Set `embedVideo: true` to embed a YouTube `video` link inside the abstract block. The iframe only loads when a visitor opens that block.
-- **Your name in author lists** is bolded automatically when it matches `authorName`. Markers such as `†` are ignored when matching.
-- **Projects:** each project gets its own detail page at `project.html?id=<id>`, and the home-page card links to it. The detail page shows the 3D model (or the image), `overview`, `highlights` (key results), every entry in `videos` as an embedded YouTube player, the `links` buttons, and the publications listed in `publicationIds`. A new project needs a unique `id`.
-- Items still marked `TODO` in `data.js` need your input.
+## About
 
-Use `data.js` rather than a JSON file: browsers block `fetch()` for local files, so a JSON file would break the site when it is opened from disk.
+I am a Research Engineer at the Vidyasirimedhi Institute of Science and Technology (VISTEC), where I conduct robotics research in collaboration with industrial partners. My work focuses on designing, modeling, and experimentally validating variable-stiffness robotic mechanisms. I hold a Bachelor's degree in Robotics and Automation Engineering from the Institute of Field Robotics (FIBO), KMUTT, and previously worked as an engineer at Seagate Technology designing mechanical components and precision equipment for automated manufacturing.
 
-## Images and the CV
+## Education
 
-| What | Where | Then |
-| --- | --- | --- |
-| Profile photo | `assets/img/profile.jpg` (square, at least 400×400) | Set `photo: "assets/img/profile.jpg"` in `data.js` |
-| Project images | `assets/img/projects/` | Set each project's `image` and `imageAlt` |
-| Education logos (optional) | `assets/img/logos/` | Set `logo` on an education entry |
-| Highlights gallery | `assets/img/highlights/` | Add `{ src, alt, caption }` items to `highlights` |
-| CV | `assets/cv/CV.pdf` | Replace the file. The path is set by `cv` |
-| Favicon | `assets/img/favicon.svg` | Replace the file (keep the name or update `index.html`) |
+**2018 – 2022 · Bachelor of Engineering in Robotics and Automation Engineering**  
+Institute of Field Robotics (FIBO), King Mongkut's University of Technology Thonburi (KMUTT)  
+GPA: 3.11
 
-| 3D model | `assets/models/` (`.glb`) | Set the project's `model` and `modelAlt` |
+**2015 – 2018 · High School, Pre-Engineering School**  
+King Mongkut's University of Technology North Bangkok
 
-Always write meaningful `alt` text that describes what the image shows.
+## Experience
 
-## 3D models
+**2023 – Present · Research Engineer**, Vidyasirimedhi Institute of Science and Technology (VISTEC)
+- Conduct robotics research in collaboration with industrial partners.
+- Design and experimentally validate variable-stiffness robotic mechanisms.
+- Model and simulate variable-stiffness structures and their mechanical behavior.
 
-The home page shows one project at a time in a large showcase. Use the ‹ › arrows, the dots, or the keyboard's left and right keys to switch project. Its 3D model turns slowly on its own and can be dragged to rotate (zoom is off there so page scrolling isn't captured). After you let go, it waits about 1.5 s, glides back to its starting view, and starts turning again. The timings are `RETURN_DELAY` and `RETURN_TIME` at the top of the viewer code in `js/viewer3d.js`. The detail page has a full viewer you can drag, zoom and pan. Models load only when they scroll into view. If WebGL or the model is unavailable, the project `image` is shown instead.
+**2021 – 2023 · Engineer**, Seagate Technology
+- Designed mechanical components and precision equipment for automated manufacturing processes.
+- Supported equipment development and functional testing for production lines.
 
-**Adding a model:**
+## Research Projects
 
-1. Export the CAD assembly as `.3MF` (SolidWorks: *Save As → 3MF*), or export `.glb` directly if your tool supports it.
-2. Convert it:
-   ```sh
-   python3 tools/3mf_to_glb.py "path/to/Model.3MF" assets/models/my-project.glb
-   ```
-   The script needs only the standard library. It keeps the part colors and prints the triangle count and file size. If the model appears standing on end or lying on its side, run it again with `--z-up`.
-3. In `data.js`, set `model: "assets/models/my-project.glb"` and a `modelAlt` description on the project.
+### MACH-joint: Multi-Axis Compliant Helical Joint
 
-Keep models under about 3 MB. If an export is too heavy, simplify it in your CAD tool first, for example by hiding fasteners or internal parts. Anyone can download a model shown on the site, so publish only CAD you're allowed to share.
+<img src="assets/img/projects/mach-joint.jpg" alt="CAD rendering of the MACH-joint showing the helical joint, the twist-constrained compliant coupling, and the assembled joint with helix shaft and magnetic encoder" width="480">
 
-**When 3D works:** browsers block 3D models on pages opened straight from disk (`file://`). On disk the site shows the project image and a short note instead. Use GitHub Pages or `python3 -m http.server` to see the models.
+A compact helical joint whose stiffness adapts passively through fluid–structure interaction, demonstrated as an adaptive-stiffness flipper for underwater propulsion.
 
-## Changing the theme
+`Compliant mechanism` `Variable stiffness` `Underwater locomotion`
 
-Every color, font, spacing value, radius and shadow is a CSS variable in `:root` at the top of `css/theme.css`. There is a light/dark switch (sun/moon button) in the header. Dark is the default, and each visitor's choice is remembered in their browser. Dark colours are set in the first `:root` block of `css/theme.css` and light colours in `:root[data-theme="light"]`; change both when restyling. In the dark theme, `--gradient-page` sets the background glows, and `--color-accent`/`--color-accent-2` set the coral-to-lilac gradient used on buttons, headings and highlights (`--gradient-accent`). To use a Google Font, add its `<link>` tag to the `<head>` of `index.html` and put the font family first in `--font-sans`. You should not need to touch `css/layout.css` to restyle the site.
+The MACH-joint integrates a helical mechanism with a twist-constrained compliant coupling to realize geometry-driven, multi-dimensional variable stiffness. Stiffness modulation emerges passively from the applied torque that controls the helical twist angle, so the joint adapts its mechanical response without additional actuation or control complexity. Implemented as an adaptive-stiffness flipper (ASF), it passively adapts its stiffness through fluid–structure interaction under constant-frequency actuation.
 
-## Link previews (meta / Open Graph)
+**Key results**
+- Multi-axis variable-stiffness compliant mechanism built on a helical structure.
+- Linear stiffness scales proportionally with geometric dimension, while bending stiffness scales cubically.
+- The power stroke generates 30% more impulse than the recovery stroke.
+- 15.32x and 3.93x faster than rigid and fixed-stiffness flippers, respectively.
 
-`script.js` fills the description and Open Graph tags from `SITE.seo` when the page loads. Social-media crawlers don't run JavaScript, though, so the same values are also hard-coded in the `<head>` of `index.html`. If you change `seo` in `data.js`, update those tags too. Once the site is live, set `seo.url` and make `og:image` an absolute URL (for example `https://<username>.github.io/<repo>/assets/img/projects/lithe-joint.jpg`) so link previews show the image.
+**Links:** [Project page](https://snatchaya.github.io/sanpoom_web/project.html?id=mach-joint) · [Video: Free-swimming locomotion of the adaptive-stiffness flipper](https://www.youtube.com/watch?v=1siruLQ7Fvk) · [Code: interactive simulator](https://anonymous.4open.science/r/MACH-joint)
 
-## Previewing locally
+### LITHE-joint: Variable Stiffness Spherical Contact Joint
 
-Double-click `index.html` to check content and layout (3D models show as images), or run a local server to get everything:
+<img src="assets/img/projects/lithe-joint.jpg" alt="IROS 2025 graphic abstract for the LITHE-joint showing the joint, its control system, the stiffness profile plot, and directional walking of the quadruped robot" width="480">
 
-```sh
-python3 -m http.server 8000
-# open http://localhost:8000
-```
+A 2-DOF compliant spherical joint with stiffness set by a single pneumatic artificial muscle, used as the spine of a quadruped to steer its walking direction.
 
-Embedded YouTube players may refuse to play when the page is opened from `file://`. They work through the local server and on GitHub Pages.
+`Variable stiffness` `Pneumatic artificial muscle` `Under-actuated robot`
 
-## Publishing on GitHub Pages
+The LITHE-joint is a compact 2-DOF compliant spherical contact joint that combines a spherical rolling joint and a cross-axis flexural pivot with a parallelogram flexure mechanism. A single pneumatic artificial muscle (PAM) adjusts its stiffness, letting the joint redistribute torque and bending angle through its passive body dynamics. Embedded as the spine of an under-actuated quadruped, reflex-based stiffness control steers the robot's walking direction without changing leg speed or position.
 
-1. Push this repository to GitHub.
-2. On GitHub, go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **Source: Deploy from a branch**.
-4. Choose branch **main** and folder **/ (root)**, then click **Save**.
-5. After a minute or so, the site is live at `https://<username>.github.io/<repo>/`.
+**Key results**
+- One PAM actuator controls the stiffness of a 2-DOF joint (0.5 actuators per degree of freedom).
+- Stiffness of up to 0.38 Nm/rad with a stiffness bandwidth of 0.1967 Nm/rad over 0.5–4 bar.
+- Range of motion of π/2 radians.
+- Directional locomotion through asymmetric body stiffness without changing the basic actuation pattern.
 
-## Private source material
+**Links:** [Project page](https://snatchaya.github.io/sanpoom_web/project.html?id=lithe-joint) · [Paper](https://doi.org/10.1109/IROS60139.2025.11247107)  
+**Videos:** [Directional locomotion of the quadruped with a LITHE-joint spine](https://youtu.be/gBokn-a40EQ) · [Stiffness profile experiment](https://youtu.be/t08CrN0bsv0) · [Bending direction control via phase-specific PAM activation](https://youtu.be/fI0hDl4UcKo)
 
-`Sanpoom_CV/` holds the original source files, including transcripts, ID documents and large videos. It is listed in `.gitignore` and must never be committed. Copy only the files you want public into `assets/`.
+### REFINE-bot: Furnace Cleaning Robot
+
+<img src="assets/img/projects/refine-bot.jpg" alt="REFINE-bot clamped on a furnace tube, with callouts for the body module, pressing module with brush tools, soft pads, and a cleaned tube in a real furnace" width="480">
+
+A tube-clamping robot with adaptive force control that removes scale from furnace radiant coils, deployed in a real fired heater.
+
+`Field robotics` `Climbing robot` `Adaptive force control`
+
+Scale accumulating on the radiant coils of oil-and-gas furnaces reduces heat-transfer efficiency and increases energy consumption. REFINE-bot is a robotic system for descaling fired heaters: an adaptable clamping mechanism fits vertical and horizontal tubes in narrow tube-to-tube and wall-to-tube gaps, and an adaptive force control adjusts the cleaning tool online to uneven scale heights. It was deployed in a real furnace and compared against traditional manual descaling.
+
+**Key results**
+- Adaptable clamping for vertical and horizontal tubes of 3–8 inch diameter.
+- Three cleaning tools evaluated under simulated hard scale; the 1-inch wire cup brush removed 431.1 µm of scale, the highest descaling rate.
+- Better cleaning performance than manual descaling in a real furnace, measured by scale thickness and infrared thermal imaging.
+- Ultrasonic thickness measurements showed no significant loss in tube wall thickness.
+
+**Links:** [Project page](https://snatchaya.github.io/sanpoom_web/project.html?id=refine-bot) · [Paper](https://doi.org/10.1109/IROS60139.2025.11247011) · [Video: REFINE-bot testing in a real furnace](https://youtu.be/j2YtmNmYR8g)
+
+## Publications
+
+† Equal contribution
+
+### 2026
+
+**[T-RO]** *Under review*  
+**A Multi-Axis Compliant Helical Joint for Embodied Adaptable Stiffness and Environment-Driven Interaction**  
+**Sanpoom Punapanont†**, Run Janna†, Harn Sison, Poramate Manoonpong  
+Manuscript under review at IEEE Transactions on Robotics (T-RO). Submitted June 2026.  
+[Video](https://www.youtube.com/watch?v=1siruLQ7Fvk) · [Code](https://anonymous.4open.science/r/MACH-joint)
+
+<details>
+<summary>Abstract</summary>
+
+Interaction with uncertain environments remains a fundamental challenge in robotics. Morphological computation offers a promising strategy by leveraging structural compliance to simplify control while maintaining adaptability. Following this principle, this study proposes a compact multi-axis compliant helical joint that features embodied adaptable stiffness. By physically integrating a helical mechanism with a twist-constrained structure, the joint realizes geometry-driven, multi-dimensional variable stiffness. The proposed design follows a stiffness scaling law in which linear stiffness scales proportionally with geometric dimension, while bending stiffness scales cubically. All stiffness modulation emerges passively from the applied torque that controls the helical twist angle, enabling adaptive mechanical responses without additional actuation or control complexity. To demonstrate joint functionality and performance, it is implemented as an adaptive-stiffness flipper and experimentally evaluated in a hydrodynamic environment under constant-frequency actuation. The joint structure passively adapts its stiffness through fluid–structure interaction and automatically produces asymmetric drag-induced impulses, with the power stroke generating 30% more impulse than the recovery stroke. This leads to 15.32x and 3.93x faster speeds than traditional rigid and fixed-stiffness flippers, respectively. The results demonstrate that the proposed mechanism can exploit coupled structure–environment dynamics to generate net directional forces without active stiffness control, highlighting its potential for adaptive robotic systems operating in uncertain environments.
+
+</details>
+
+### 2025
+
+**[IROS-2025]**  
+**LITHE-joint: Variable Stiffness Compliant Spherical Contact Joint in an Under-Actuated System**  
+**Sanpoom Punapanont†**, Run Janna†, Harn Sison, Poramate Manoonpong  
+2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Hangzhou, China, pp. 5228–5235.  
+[Paper](https://doi.org/10.1109/IROS60139.2025.11247107) · [Video](https://youtu.be/gBokn-a40EQ)
+
+<details>
+<summary>Abstract</summary>
+
+The concept of morphological computation (MC) is applied in the robotics field to improve the design and reduce the complexity of control systems. The MC uses mechanical intelligence, where stiffness properties play an important role as constraints to enhance system flexibility and to store elastic energy. This can reduce the number of required actuators. According to the MC principle, this work proposes LITHE-joint: variable stiffness compliant spherical contact joint in an under-actuated system. This compact design for a 2-degrees of freedom (DOF) compliant spherical contact joint with controllable stiffness uses a pneumatic artificial muscle (PAM). This joint requires only one PAM actuator to control stiffness in a 2-DOF system, achieving a stiffness of up to 0.38 Nm/rad with a bandwidth of 0.1967 Nm/rad. With its variable stiffness properties, the joint is able to adapt its bending behavior, enabling energy redistribution of torque and angle. The modulation of torque and bending angle is governed by joint stiffness and the passive body dynamics. The benefits of the passive, compliant joint with a variable stiffness property are demonstrated by using as the spine of an under-actuated robot, controlling the passive bending of the body and the robot's walking direction using the adjustable stiffness.
+
+</details>
+
+**[IROS-2025]**  
+**REFINE-bot: Furnace Cleaning Robot for Heat-transfer Efficiency Improvement**  
+**Sanpoom Punapanont†**, Thipawan Pairam†, Wasuthorn Ausrivong†, Poramate Manoonpong  
+2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS).  
+[Paper](https://doi.org/10.1109/IROS60139.2025.11247011) · [Video](https://youtu.be/j2YtmNmYR8g)
+
+<details>
+<summary>Abstract</summary>
+
+In the oil and gas industry, scale accumulation on radiant coils within furnaces significantly reduces heat-transfer efficiency, leading to increased energy consumption. This paper introduces the REFINE-bot, a robotic system developed to improve the descaling process and operational efficiency in fired heaters. Unlike existing solutions which are mainly designed for specific tube sizes and positions and focused on inspection, the REFINE-bot integrates an adaptable clamping mechanism that adapts to both vertical and horizontal tubes of varying diameters (3"–8"), even in complex environments with narrow tube-to-tube and wall-to-tube gaps. An adaptive force control is also developed to online adjust the position of the cleaning relative to the tube surface to address uneven scale heights. We evaluated three different cleaning tools—a Knot End Brush, Wire Cup Brush, and Sandpaper—under simulated hard scale conditions in a lab environment. This evaluation revealed the cleaning tools' limitations and helped to identify optimal safety parameters to prevent tube damage. The results showed that the 1-inch Wire Cup Brush, removing 431.1 µm of scale, achieved the highest descaling rate among the tested tools. The robot was successfully deployed in a real furnace setting to test its clamping and cleaning mechanisms on the actual scale. The real-world results demonstrated superior cleaning performance on the radiant coils of a furnace compared to traditional manual descaling methods, as evaluated by measured reductions in scale thickness and infrared thermal imaging. Furthermore, ultrasonic thickness measurements (UTM) were performed and indicated that there was no significant loss in wall thickness after the on-site experiments.
+
+</details>
+
+### 2024
+
+**[AIP Conf. Proc.]**  
+**Development of 7-degree-of-freedom passive manipulator for arthroscopy**  
+P. Romtrairat, et al.  
+AIP Conference Proceedings, Vol. 3086, No. 1. AIP Publishing LLC, 2024.
+
+## Skills
+
+**Hardware:** `CAD design (SolidWorks, Fusion 360)` `Compliant mechanism design` `Pneumatic systems`  
+**Modeling & Computation:** `MATLAB` `Python` `Kinematic and dynamic modeling`  
+**Languages:** `Thai (native)` `English (B2, IELTS 6.5)`
+
+## Awards & Certifications
+
+- **2025** · VISTEC honors for outstanding achievements
+- **2019 – 2021** · KMUTT Full Scholarship for Creativity and Innovation
+
+## Contact
+
+✉️ [p.sanpoom@gmail.com](mailto:p.sanpoom@gmail.com) · 🌐 [snatchaya.github.io/sanpoom_web](https://snatchaya.github.io/sanpoom_web/)
+
+---
+
+<sub>The website's content lives in [`data.js`](data.js); this README mirrors it. To update the site, see the [Development guide](DEVELOPMENT.md).</sub>
