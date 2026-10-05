@@ -5,7 +5,7 @@ Bangkok, Thailand
 
 *Physical intelligence, compliant and variable-stiffness mechanisms, embodied intelligence, and robot–environment interaction.*
 
-🌐 **Website:** [snatchaya.github.io/sanpoom_web](https://snatchaya.github.io/sanpoom_web/)  
+🌐 **Website:** [sanpoom-p.github.io/SanpoomPunapanont](https://sanpoom-p.github.io/SanpoomPunapanont/)  
 📄 **CV:** [Download (PDF)](assets/cv/CV.pdf)  
 ✉️ **Email:** [p.sanpoom@gmail.com](mailto:p.sanpoom@gmail.com)
 
@@ -53,7 +53,7 @@ The MACH-joint integrates a helical mechanism with a twist-constrained compliant
 - The power stroke generates 30% more impulse than the recovery stroke.
 - 15.32x and 3.93x faster than rigid and fixed-stiffness flippers, respectively.
 
-**Links:** [Project page](https://snatchaya.github.io/sanpoom_web/project.html?id=mach-joint) · [Video: Free-swimming locomotion of the adaptive-stiffness flipper](https://www.youtube.com/watch?v=1siruLQ7Fvk) · [Code: interactive simulator](https://anonymous.4open.science/r/MACH-joint)
+**Links:** [Project page](https://sanpoom-p.github.io/SanpoomPunapanont/project.html?id=mach-joint) · [Video: Free-swimming locomotion of the adaptive-stiffness flipper](https://www.youtube.com/watch?v=1siruLQ7Fvk) · [Code: interactive simulator](https://anonymous.4open.science/r/MACH-joint)
 
 ### LITHE-joint: Variable Stiffness Spherical Contact Joint
 
@@ -71,7 +71,7 @@ The LITHE-joint is a compact 2-DOF compliant spherical contact joint that combin
 - Range of motion of π/2 radians.
 - Directional locomotion through asymmetric body stiffness without changing the basic actuation pattern.
 
-**Links:** [Project page](https://snatchaya.github.io/sanpoom_web/project.html?id=lithe-joint) · [Paper](https://doi.org/10.1109/IROS60139.2025.11247107)  
+**Links:** [Project page](https://sanpoom-p.github.io/SanpoomPunapanont/project.html?id=lithe-joint) · [Paper](https://doi.org/10.1109/IROS60139.2025.11247107)  
 **Videos:** [Directional locomotion of the quadruped with a LITHE-joint spine](https://youtu.be/gBokn-a40EQ) · [Stiffness profile experiment](https://youtu.be/t08CrN0bsv0) · [Bending direction control via phase-specific PAM activation](https://youtu.be/fI0hDl4UcKo)
 
 ### REFINE-bot: Furnace Cleaning Robot
@@ -90,7 +90,7 @@ Scale accumulating on the radiant coils of oil-and-gas furnaces reduces heat-tra
 - Better cleaning performance than manual descaling in a real furnace, measured by scale thickness and infrared thermal imaging.
 - Ultrasonic thickness measurements showed no significant loss in tube wall thickness.
 
-**Links:** [Project page](https://snatchaya.github.io/sanpoom_web/project.html?id=refine-bot) · [Paper](https://doi.org/10.1109/IROS60139.2025.11247011) · [Video: REFINE-bot testing in a real furnace](https://youtu.be/j2YtmNmYR8g)
+**Links:** [Project page](https://sanpoom-p.github.io/SanpoomPunapanont/project.html?id=refine-bot) · [Paper](https://doi.org/10.1109/IROS60139.2025.11247011) · [Video: REFINE-bot testing in a real furnace](https://youtu.be/j2YtmNmYR8g)
 
 ## Publications
 
@@ -159,7 +159,7 @@ AIP Conference Proceedings, Vol. 3086, No. 1. AIP Publishing LLC, 2024.
 
 ## Contact
 
-✉️ [p.sanpoom@gmail.com](mailto:p.sanpoom@gmail.com) · 🌐 [snatchaya.github.io/sanpoom_web](https://snatchaya.github.io/sanpoom_web/)
+✉️ [p.sanpoom@gmail.com](mailto:p.sanpoom@gmail.com) · 🌐 [sanpoom-p.github.io/SanpoomPunapanont](https://sanpoom-p.github.io/SanpoomPunapanont/)
 
 ---
 

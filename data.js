@@ -20,7 +20,7 @@ const SITE = {
   seo: {
     description: "Sanpoom Punapanont, Research Engineer at VISTEC, working on compliant and variable-stiffness robotic mechanisms.",
     image: "assets/img/projects/lithe-joint.jpg",
-    url: "" // TODO: your GitHub Pages URL, e.g. https://<username>.github.io/<repo>/
+    url: "https://sanpoom-p.github.io/SanpoomPunapanont/"
   },
 
   about:
