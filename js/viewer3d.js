@@ -2,8 +2,9 @@
  * 3D model viewer for .model-stage[data-model] elements (created by script.js).
  * Loaded as an ES module only over http(s). Uses the vendored copy of three.js in /vendor.
  * - Models load lazily when they scroll near the viewport, and stop rendering when off-screen.
- * - data-interactive="true": drag/zoom/pan with OrbitControls (detail page).
- *   Otherwise the model slowly turns on its own and clicks pass through to the card link.
+ * - data-interactive="full": drag/zoom/pan with OrbitControls (detail page).
+ * - data-interactive="rotate": drag to rotate only (home showcase), page scroll is untouched.
+ * - No data-interactive: the model slowly turns on its own.
  * - If WebGL or loading fails, the poster image simply stays visible.
  */
 import * as THREE from "../vendor/three/build/three.module.min.js";
@@ -31,7 +32,9 @@ function loadModel(url) {
 }
 
 function mount(stage) {
-  const interactive = stage.dataset.interactive === "true";
+  // data-interactive: "full" = rotate/zoom/pan; "rotate" = drag to rotate only, so page scrolling is never captured.
+  const mode = stage.dataset.interactive;
+  const interactive = mode === "full" || mode === "rotate";
   stage.classList.add("is-loading");
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -124,6 +127,11 @@ function mount(stage) {
       controls.minDistance = radius * 0.6;
       controls.maxDistance = distance * 3;
       controls.addEventListener("start", () => { controls.autoRotate = false; });
+      if (mode === "rotate") {
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        canvas.style.touchAction = "pan-y"; // vertical swipes still scroll the page on phones
+      }
       home = { position: camera.position.clone(), target: controls.target.clone() };
       canvas.addEventListener("dblclick", () => {
         camera.position.copy(home.position);

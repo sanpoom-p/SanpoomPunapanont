@@ -92,6 +92,9 @@
     orcid: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/><rect x="7" y="10" width="2" height="8" fill="currentColor"/><circle cx="8" cy="7" r="1.25" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2" d="M11.5 10h2.5a4 4 0 0 1 0 8h-2.5z"/></svg>'
   };
 
+  const ARROW_LEFT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const ARROW_RIGHT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
   const CONTACT_LABELS = { email: "Email", github: "GitHub", linkedin: "LinkedIn", scholar: "Google Scholar", orcid: "ORCID" };
   const PROJECT_LINK_LABELS = { paper: "Paper", video: "Video", github: "GitHub", project: "Project page" };
   const PUB_LINK_LABELS = { paper: "Paper", video: "Video", code: "Code" };
@@ -136,11 +139,12 @@
   }
 
   // A box that shows the project image and, when js/viewer3d.js runs, swaps in a live 3D model.
-  function modelStage(project, interactive) {
+  // mode: "full" (rotate, zoom, pan), "rotate" (drag to rotate only, page scroll untouched), or false (auto-turn only).
+  function modelStage(project, mode) {
     return el("div", {
       class: "model-stage",
       "data-model": project.model,
-      "data-interactive": interactive ? "true" : null,
+      "data-interactive": mode || null,
       "data-label": project.modelAlt || "3D model of " + project.title,
       role: "img",
       "aria-label": project.imageAlt || project.title
@@ -215,6 +219,64 @@
     return item;
   }
 
+  // ---------- project showcase (home page) ----------
+  // One large slide per project; arrows, dots and the keyboard's left/right keys switch slides.
+  function renderShowcase() {
+    const projects = SITE.projects || [];
+    if (!projects.length) return;
+    const pad = (n) => String(n).padStart(2, "0");
+
+    const slides = projects.map((p, i) => {
+      const links = Object.entries(p.links || {}).filter(([k, href]) => has(href) && k !== "project");
+      return el("article", {
+        class: "slide",
+        role: "group",
+        "aria-roledescription": "slide",
+        "aria-label": (i + 1) + " of " + projects.length + ": " + p.title,
+        hidden: i !== 0
+      }, [
+        el("div", { class: "slide-media" }, has(p.model)
+          ? [modelStage(p, "rotate"), el("span", { class: "slide-hint", "aria-hidden": "true", text: "Drag to rotate" })]
+          : (has(p.image) ? el("img", { class: "slide-img", src: p.image, alt: p.imageAlt || p.title, loading: i ? "lazy" : null }) : null)),
+        el("div", { class: "slide-info" }, [
+          el("p", { class: "slide-count" }, [el("strong", { text: pad(i + 1) }), " / " + pad(projects.length)]),
+          el("h3", { class: "slide-title", text: p.title }),
+          el("p", { class: "slide-desc", text: p.description }),
+          has(p.tags) ? el("ul", { class: "chips", "aria-label": "Tags" }, p.tags.map((t) => el("li", { class: "chip", text: t }))) : null,
+          has(p.highlights) ? el("ul", { class: "slide-highlights", "aria-label": "Key results" }, p.highlights.slice(0, 2).map((h) => el("li", { text: h }))) : null,
+          el("div", { class: "link-row" }, [
+            el("a", { class: "btn btn-primary", href: projectUrl(p) }, ["View project", el("span", { "aria-hidden": "true", text: "\u00a0→" })]),
+            ...links.map(([k, href]) => externalLink(href, PROJECT_LINK_LABELS[k] || k, "btn"))
+          ])
+        ])
+      ]);
+    });
+
+    const dots = projects.map((p, i) => el("button", { type: "button", "aria-label": "Show project " + (i + 1) + ": " + p.title }));
+    const prev = el("button", { type: "button", class: "showcase-arrow prev", "aria-label": "Previous project", html: ARROW_LEFT });
+    const next = el("button", { type: "button", class: "showcase-arrow next", "aria-label": "Next project", html: ARROW_RIGHT });
+    const showcase = el("div", { class: "showcase", role: "region", "aria-roledescription": "carousel", "aria-label": "Research projects" }, [
+      el("div", { class: "showcase-viewport", "aria-live": "polite" }, slides),
+      el("div", { class: "showcase-nav" }, projects.length > 1 ? [prev, el("div", { class: "showcase-dots" }, dots), next] : [])
+    ]);
+
+    let current = 0;
+    function show(index) {
+      current = (index + projects.length) % projects.length;
+      slides.forEach((slide, i) => { slide.hidden = i !== current; });
+      dots.forEach((dot, i) => dot.setAttribute("aria-current", i === current ? "true" : "false"));
+    }
+    prev.addEventListener("click", () => show(current - 1));
+    next.addEventListener("click", () => show(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
+    showcase.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { show(current - 1); e.preventDefault(); }
+      if (e.key === "ArrowRight") { show(current + 1); e.preventDefault(); }
+    });
+    show(0);
+    $("projects-list").append(showcase);
+  }
+
   // ================= HOME PAGE =================
   function renderHome() {
     renderMeta(SITE.name || document.title, (SITE.seo || {}).description || SITE.tagline, (SITE.seo || {}).image);
@@ -261,18 +323,7 @@
       ]))
     ])));
 
-    // Projects: each card is a link to the project's detail page.
-    $("projects-list").append(...(SITE.projects || []).map((p) => el("a", { class: "card card-link", href: projectUrl(p) }, [
-      el("div", { class: "card-media" }, has(p.model)
-        ? modelStage(p, false)
-        : (has(p.image) ? el("img", { class: "card-img", src: p.image, alt: p.imageAlt || p.title, loading: "lazy" }) : null)),
-      el("div", { class: "card-body" }, [
-        el("h3", { text: p.title }),
-        el("p", { text: p.description }),
-        has(p.tags) ? el("ul", { class: "chips", "aria-label": "Tags" }, p.tags.map((t) => el("li", { class: "chip", text: t }))) : null,
-        el("span", { class: "card-more" }, [has(p.model) ? "3D model, videos & details" : "Videos & details", el("span", { "aria-hidden": "true", text: " →" })])
-      ])
-    ])));
+    renderShowcase();
 
     // Publications, grouped by year (newest first)
     const pubs = (SITE.publications || []).slice().sort((a, b) => (b.year || 0) - (a.year || 0));
@@ -327,12 +378,20 @@
     }
 
     renderMeta(p.title + " | " + SITE.name, p.description, p.image);
+    const prevP = projects[(index - 1 + projects.length) % projects.length];
+    const nextP = projects[(index + 1) % projects.length];
     const links = Object.entries(p.links || {}).filter(([, href]) => has(href));
     const videos = (p.videos || []).filter((v) => youtubeId(v.url));
     const pubs = (p.publicationIds || []).map((pid) => (SITE.publications || []).find((x) => x.id === pid)).filter(Boolean);
 
     root.append(
-      back,
+      el("div", { class: "project-topbar" }, [
+        back,
+        projects.length > 1 ? el("nav", { class: "project-arrows", "aria-label": "Switch project" }, [
+          el("a", { class: "showcase-arrow", href: projectUrl(prevP), "aria-label": "Previous project: " + prevP.title, html: ARROW_LEFT }),
+          el("a", { class: "showcase-arrow", href: projectUrl(nextP), "aria-label": "Next project: " + nextP.title, html: ARROW_RIGHT })
+        ]) : null
+      ]),
       el("header", { class: "project-header" }, [
         el("h1", { text: p.title }),
         el("p", { class: "project-lead", text: p.description }),
@@ -345,7 +404,7 @@
     // Hero media: interactive 3D model if available, otherwise the project image.
     if (has(p.model)) {
       root.append(el("div", { class: "project-viewer" }, [
-        modelStage(p, true),
+        modelStage(p, "full"),
         el("p", { class: "viewer-hint muted" }, [
           el("span", { class: "hint-3d", text: "Drag to rotate · Scroll or pinch to zoom · Right-drag to pan · Double-click to reset" }),
           el("span", { class: "hint-file", text: "The interactive 3D model loads when the site is opened from the web (GitHub Pages or a local server), not from a file on disk." })
@@ -395,8 +454,8 @@
 
     // Previous / next project
     if (projects.length > 1) {
-      const prev = projects[(index - 1 + projects.length) % projects.length];
-      const next = projects[(index + 1) % projects.length];
+      const prev = prevP;
+      const next = nextP;
       root.append(el("nav", { class: "project-pager", "aria-label": "More projects" }, [
         el("a", { href: projectUrl(prev) }, [el("span", { class: "muted", text: "← Previous" }), el("span", { text: prev.title })]),
         el("a", { href: projectUrl(next), class: "pager-next" }, [el("span", { class: "muted", text: "Next →" }), el("span", { text: next.title })])

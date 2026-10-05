@@ -48,7 +48,7 @@ Always write meaningful `alt` text that describes what the image shows.
 
 ## 3D models
 
-Project cards show a slowly turning 3D model, and the detail page has a viewer you can drag, zoom and pan. Models load only when they scroll into view. If WebGL or the model is unavailable, the project `image` is shown instead.
+The home page shows one project at a time in a large showcase. Use the ‹ › arrows, the dots, or the keyboard's left and right keys to switch project. Its 3D model turns slowly and can be dragged to rotate (zoom is off there so page scrolling isn't captured). The detail page has a full viewer you can drag, zoom and pan. Models load only when they scroll into view. If WebGL or the model is unavailable, the project `image` is shown instead.
 
 **Adding a model:**
 
@@ -66,7 +66,7 @@ Keep models under about 3 MB. If an export is too heavy, simplify it in your CAD
 
 ## Changing the theme
 
-Every color, font, spacing value, radius and shadow is a CSS variable in `:root` at the top of `css/theme.css`. Change `--color-accent` to recolor the whole site. To use a Google Font, add its `<link>` tag to the `<head>` of `index.html` and put the font family first in `--font-sans`. You should not need to touch `css/layout.css` to restyle the site.
+Every color, font, spacing value, radius and shadow is a CSS variable in `:root` at the top of `css/theme.css`. The site uses a dark theme: `--gradient-page` sets the background glows, and `--color-accent`/`--color-accent-2` set the coral-to-lilac gradient used on buttons, headings and highlights (`--gradient-accent`). To use a Google Font, add its `<link>` tag to the `<head>` of `index.html` and put the font family first in `--font-sans`. You should not need to touch `css/layout.css` to restyle the site.
 
 ## Link previews (meta / Open Graph)
 
