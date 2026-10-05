@@ -107,6 +107,25 @@ a:hover { text-decoration: underline; }
 /* Cards */
 .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow); }
 .card-img { background: var(--color-bg-alt); border-bottom: 1px solid var(--color-border); }
+.card-link { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+.card-link:hover { text-decoration: none; transform: translateY(-3px); border-color: var(--color-accent); box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12); }
+.card-link h3 { color: var(--color-text); }
+.card-link p { color: var(--color-muted); }
+.card-media { border-bottom: 1px solid var(--color-border); }
+.card-more { color: var(--color-accent); font-size: var(--font-size-small); font-weight: 600; }
+
+/* 3D model stage */
+.model-stage { background: radial-gradient(ellipse at 50% 40%, var(--color-surface) 0%, var(--color-bg-alt) 75%); }
+.model-canvas, .model-poster { transition: opacity 0.6s ease; }
+.project-viewer .model-stage { border: 1px solid var(--color-border); border-radius: var(--radius); }
+.project-viewer .model-canvas { cursor: grab; }
+.project-viewer .model-canvas:active { cursor: grabbing; }
+.model-spinner { border: 3px solid var(--color-border); border-top-color: var(--color-accent); border-radius: 50%; animation: model-spin 0.9s linear infinite; }
+@keyframes model-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .card-link, .model-canvas, .model-poster { transition: none; }
+  .card-link:hover { transform: none; }
+}
 
 /* Chips */
 .chip {
@@ -140,6 +159,17 @@ a:hover { text-decoration: underline; }
 .contact-link { color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-pill); background: var(--color-surface); }
 .contact-link:hover { border-color: var(--color-accent); color: var(--color-accent); text-decoration: none; }
 .contact-icon { color: var(--color-accent); }
+
+/* Project detail page */
+.back-link { font-size: var(--font-size-small); font-weight: 600; }
+.project-lead { font-size: 1.125rem; color: var(--color-muted); }
+.viewer-hint { font-size: var(--font-size-small); }
+.project-figure img { border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-surface); }
+.video-item figcaption { font-size: var(--font-size-small); color: var(--color-muted); }
+.project-pager { border-top: 1px solid var(--color-border); }
+.project-pager a { border: 1px solid var(--color-border); border-radius: var(--radius); color: var(--color-text); font-weight: 600; }
+.project-pager a:hover { border-color: var(--color-accent); text-decoration: none; }
+.project-pager .muted { font-size: var(--font-size-small); font-weight: 400; }
 
 /* Footer */
 .site-footer { border-top: 1px solid var(--color-border); color: var(--color-muted); font-size: var(--font-size-small); }

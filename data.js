@@ -68,51 +68,99 @@ const SITE = {
     }
   ],
 
+  // Each project gets its own detail page: project.html?id=<id>.
+  // model: optional .glb file shown as an interactive 3D viewer (see README). image is the fallback/poster.
+  // publicationIds: ids from the publications list below, shown on the detail page.
   projects: [
     {
+      id: "mach-joint",
       title: "MACH-joint: Multi-Axis Compliant Helical Joint",
       description: "A compact helical joint whose stiffness adapts passively through fluid–structure interaction, demonstrated as an adaptive-stiffness flipper for underwater propulsion.",
       image: "assets/img/projects/mach-joint.jpg",
       imageAlt: "CAD rendering of the MACH-joint showing the helical joint, the twist-constrained compliant coupling, and the assembled joint with helix shaft and magnetic encoder",
+      model: "assets/models/mach-joint.glb",
+      modelAlt: "Interactive 3D model of the adaptive-stiffness flipper built on the MACH-joint",
       tags: ["Compliant mechanism", "Variable stiffness", "Underwater locomotion"],
+      overview: "The MACH-joint integrates a helical mechanism with a twist-constrained compliant coupling to realize geometry-driven, multi-dimensional variable stiffness. Stiffness modulation emerges passively from the applied torque that controls the helical twist angle, so the joint adapts its mechanical response without additional actuation or control complexity. Implemented as an adaptive-stiffness flipper (ASF), it passively adapts its stiffness through fluid–structure interaction under constant-frequency actuation.",
+      highlights: [
+        "Multi-axis variable-stiffness compliant mechanism built on a helical structure.",
+        "Linear stiffness scales proportionally with geometric dimension, while bending stiffness scales cubically.",
+        "The power stroke generates 30% more impulse than the recovery stroke.",
+        "15.32x and 3.93x faster than rigid and fixed-stiffness flippers, respectively."
+      ],
+      videos: [
+        { url: "https://www.youtube.com/watch?v=1siruLQ7Fvk", title: "Free-swimming locomotion of the adaptive-stiffness flipper" }
+      ],
       links: {
         paper: "",
         video: "https://www.youtube.com/watch?v=1siruLQ7Fvk",
-        github: "https://anonymous.4open.science/r/MACH-joint",
+        github: "https://anonymous.4open.science/r/MACH-joint", // open-source interactive simulator
         project: ""
-      }
+      },
+      publicationIds: ["mach-joint-tro"]
     },
     {
+      id: "lithe-joint",
       title: "LITHE-joint: Variable Stiffness Spherical Contact Joint",
       description: "A 2-DOF compliant spherical joint with stiffness set by a single pneumatic artificial muscle, used as the spine of a quadruped to steer its walking direction.",
       image: "assets/img/projects/lithe-joint.jpg",
       imageAlt: "IROS 2025 graphic abstract for the LITHE-joint showing the joint, its control system, the stiffness profile plot, and directional walking of the quadruped robot",
+      model: "assets/models/lithe-joint.glb",
+      modelAlt: "Interactive 3D model of the quadruped robot with a LITHE-joint spine",
       tags: ["Variable stiffness", "Pneumatic artificial muscle", "Under-actuated robot"],
+      overview: "The LITHE-joint is a compact 2-DOF compliant spherical contact joint that combines a spherical rolling joint and a cross-axis flexural pivot with a parallelogram flexure mechanism. A single pneumatic artificial muscle (PAM) adjusts its stiffness, letting the joint redistribute torque and bending angle through its passive body dynamics. Embedded as the spine of an under-actuated quadruped, reflex-based stiffness control steers the robot's walking direction without changing leg speed or position.",
+      highlights: [
+        "One PAM actuator controls the stiffness of a 2-DOF joint (0.5 actuators per degree of freedom).",
+        "Stiffness of up to 0.38 Nm/rad with a stiffness bandwidth of 0.1967 Nm/rad over 0.5–4 bar.",
+        "Range of motion of π/2 radians.",
+        "Directional locomotion through asymmetric body stiffness without changing the basic actuation pattern."
+      ],
+      videos: [
+        { url: "https://youtu.be/gBokn-a40EQ", title: "Directional locomotion of the quadruped with a LITHE-joint spine" },
+        { url: "https://youtu.be/t08CrN0bsv0", title: "Stiffness profile experiment" },
+        { url: "https://youtu.be/fI0hDl4UcKo", title: "Bending direction control via phase-specific PAM activation" }
+      ],
       links: {
         paper: "https://doi.org/10.1109/IROS60139.2025.11247107",
         video: "https://youtu.be/gBokn-a40EQ",
         github: "",
         project: ""
-      }
+      },
+      publicationIds: ["lithe-joint-iros25"]
     },
     {
+      id: "refine-bot",
       title: "REFINE-bot: Furnace Cleaning Robot",
       description: "A tube-clamping robot with adaptive force control that removes scale from furnace radiant coils, deployed in a real fired heater.",
       image: "assets/img/projects/refine-bot.jpg",
       imageAlt: "REFINE-bot clamped on a furnace tube, with callouts for the body module, pressing module with brush tools, soft pads, and a cleaned tube in a real furnace",
+      model: "",
+      modelAlt: "",
       tags: ["Field robotics", "Climbing robot", "Adaptive force control"],
+      overview: "Scale accumulating on the radiant coils of oil-and-gas furnaces reduces heat-transfer efficiency and increases energy consumption. REFINE-bot is a robotic system for descaling fired heaters: an adaptable clamping mechanism fits vertical and horizontal tubes in narrow tube-to-tube and wall-to-tube gaps, and an adaptive force control adjusts the cleaning tool online to uneven scale heights. It was deployed in a real furnace and compared against traditional manual descaling.",
+      highlights: [
+        "Adaptable clamping for vertical and horizontal tubes of 3–8 inch diameter.",
+        "Three cleaning tools evaluated under simulated hard scale; the 1-inch wire cup brush removed 431.1 µm of scale, the highest descaling rate.",
+        "Better cleaning performance than manual descaling in a real furnace, measured by scale thickness and infrared thermal imaging.",
+        "Ultrasonic thickness measurements showed no significant loss in tube wall thickness."
+      ],
+      videos: [
+        { url: "https://youtu.be/j2YtmNmYR8g", title: "REFINE-bot testing in a real furnace" }
+      ],
       links: {
         paper: "https://doi.org/10.1109/IROS60139.2025.11247011",
         video: "https://youtu.be/j2YtmNmYR8g",
         github: "",
         project: ""
-      }
+      },
+      publicationIds: ["refine-bot-iros25"]
     }
   ],
 
-  // venue: short tag shown in brackets. status: optional label such as "Under review".
+  // id: used by projects[].publicationIds. venue: short tag shown in brackets. status: optional label such as "Under review".
   publications: [
     {
+      id: "mach-joint-tro",
       year: 2026,
       venue: "T-RO",
       status: "Under review",
@@ -128,6 +176,7 @@ const SITE = {
       embedVideo: false
     },
     {
+      id: "lithe-joint-iros25",
       year: 2025,
       venue: "IROS-2025",
       title: "LITHE-joint: Variable Stiffness Compliant Spherical Contact Joint in an Under-Actuated System",
@@ -142,6 +191,7 @@ const SITE = {
       embedVideo: true
     },
     {
+      id: "refine-bot-iros25",
       year: 2025,
       venue: "IROS-2025",
       title: "REFINE-bot: Furnace Cleaning Robot for Heat-transfer Efficiency Improvement",
@@ -156,6 +206,7 @@ const SITE = {
       embedVideo: true
     },
     {
+      id: "arthroscopy-aip24",
       year: 2024,
       venue: "AIP Conf. Proc.",
       title: "Development of 7-degree-of-freedom passive manipulator for arthroscopy",
